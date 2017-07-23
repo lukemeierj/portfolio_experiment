@@ -1,0 +1,290 @@
+<html>
+    <head>
+        <script src = './js/anime.min.js'></script>
+        <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+        <title>Luke Meier (J?)</title>
+        <style> 
+            body {
+                background-color: #efefef;
+            }
+            .narrative-wrapper {
+                margin-left: 20vw;
+            }
+            .leadin, .leadto {
+                margin: .2em;
+                display: inline-block;
+                /*height: 2em;*/
+            }
+            .leadin p, .leadto p {
+                margin: 0;
+                padding: .5em;
+                vertical-align: middle;
+                text-align: center;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            h1 {
+                margin: 0;
+                padding:.1em;
+                font-size: 5em;
+            }
+            .leadin {
+                background-color: #222;
+                color: white;
+            }
+            .leadto {
+                margin-left: 4em;
+            }
+            .leadto p {
+                opacity: 0;
+            }
+
+            .art {
+                background-color: crimson;
+            }
+            .tech {
+                background-color: cornflowerblue;
+            }
+            .character {
+                background-color: tomato;
+            }
+            li {
+                color: black;
+                width: 100%;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class = 'narrative-wrapper'>
+            <div class = 'leadin'><p>I'm a</p></div>
+            <div class = 'tacky tacky-titles'>
+                <div class = 'leadto tech' data-id=0><p>software developer</p></div><br>
+                <div class = 'leadto art' data-id=1><p>designer</p></div><br>
+                <div class = 'leadto character' data-id=2><p>excited nerd</p></div><br>
+            </div>
+            <div class = 'leadin'><p>with a passion for</p></div>
+            <div class = 'tacky tacky-passions'>
+                <div class = 'leadto art' data-id=4><p>data visualization</p></div><br>
+                <div class = 'leadto tech' data-id=5><p>sexy, concise code</p></div><br>
+                <div class = 'leadto character' data-id=6><p>authenticity</p></div><br>
+                <div class = 'leadto art' data-id=7><p>music</p></div><br>
+                <div class = 'leadto character' data-id=8><p>ethical design</p></div><br>
+            </div>
+            <div class = 'leadin'><p>using tools like</p></div>
+            <div class = 'tacky tacky-tools'>
+                <div class = 'leadto art' data-id=9><p>Photoshop</p></div><br>
+                <div class = 'leadto tech' data-id=10><p>Javascript</p></div><br>
+                <div class = 'leadto tech' data-id=11><p>Python</p></div><br>
+                <div class = 'leadto tech' data-id=12><p>pandas</p></div><br>
+            </div>
+            <div class = 'leadin'><p>to create things like</p></div>
+            <div class = 'tacky tacky-examples'>
+                <div class = 'leadto art' href = 'http://poemrad.io'><p>a poetry sharing service inspired by pandora</p></div><br>
+                <div class = 'leadto tech'><p>a chrome extension to help you own your time</p></div><br>
+                <div class = 'leadto art'><p>some cool graphs</p></div><br>
+                <div class = 'leadto art'><p>a tool to help you write your thoughts without getting hung up</p></div><br>
+            </div>
+        <div> 
+        <div class = "description-wrapper">
+            <div class = 'art'>
+        </div>
+        <script> 
+            (function($){
+                var descriptions = [
+                    {
+                        type: 'titles',
+                        text: 'I\'m a',
+                        entries : [
+                            {
+                                category: 'tech',
+                                excerpt: 'software developer',
+                                description: "I'm passionate about yada yada"
+                            },
+                            {
+                                category: 'art',
+                                excerpt: 'UX enthusiast',
+                                description: "I'm passionate about yada yada"
+                            },
+                            {
+                                category: 'character',
+                                excerpt: 'excited nerd',
+                                description: "I'm passionate about yada yada"
+                            },
+                        ]
+                    },
+                    {
+                        type: 'passions',
+                        text: 'with a passion for',
+                        entries : [
+                            {
+                                category: 'character',
+                                excerpt: 'ethical design',
+                                description: "I'm passionate about yada yada"
+                            },
+                            {
+                                category: 'tech',
+                                excerpt: 'sexy, concise code',
+                                description: "I'm passionate about yada yada"
+                            },
+                            {
+                                category: 'character',
+                                excerpt: 'authenticity',
+                                description: "I'm passionate about yada yada"
+                            },
+                            {
+                                category: 'art',
+                                excerpt: 'music',
+                                description: "I'm passionate about yada yada"
+                            },
+                        ]
+                    },
+                    {
+                        type: 'tools',
+                        text: 'using tools like',
+                        entries : [
+                            {
+                                category: 'tech',
+                                excerpt: 'Python',
+                                description: "I'm passionate about yada yada"
+                            },
+                            {
+                                category: 'tech',
+                                excerpt: 'Javascript',
+                                description: "I'm passionate about yada yada"
+                            },
+                            {
+                                category: 'tech',
+                                excerpt: 'pandas',
+                                description: "I'm passionate about yada yada"
+                            },
+                            {
+                                category: 'art',
+                                excerpt: 'Photoshop/Illustrator',
+                                description: "I'm passionate about yada yada"
+                            },
+                        ]
+                    },
+                    {
+                        type: 'examples',
+                        text: 'to create things like',
+                        entries : [
+                            {
+                                category: 'art',
+                                excerpt: 'a Pandora inspired poetry sharing service',
+                                description: "I'm passionate about yada yada",
+                                href: 'http://poemrad.io'
+                            },
+                            {
+                                category: 'tech',
+                                excerpt: 'a chrome extension to help you break habits',
+                                description: "I'm passionate about yada yada"
+                            },
+                            {
+                                category: 'tech',
+                                excerpt: 'some cool graphs and posts',
+                                description: "I'm passionate about yada yada",
+                                href: 'https://lukemeierj.wordpress.com'
+                            },
+                            {
+                                category: 'art',
+                                excerpt: 'a tool to help you write out your thoughts',
+                                description: "I'm passionate about yada yada"
+                            },
+                        ]
+                    },
+                    
+                ]
+                    
+                }
+
+
+
+                var leadtos = $('.leadto'),
+                    leadins = $('.leadin');
+                var basicTimeline = anime.timeline();
+                leadtos.each(function(i, lead) {
+                    var $lead = $(lead);
+                    var width = $lead.width();
+                    console.log($lead)
+                    console.log("HELLO")
+                    if($lead.attr('href')){
+                        $lead.css('cursor', 'pointer');
+                    }
+                    $lead.width(0).show();
+                    basicTimeline.add({
+                        targets: lead,
+                        width: width,
+                        offset: i===0 ? '+=300' : '-=1480',
+                        duration: 1500,
+                        // ease: 'easeInSine',
+                        elasticity: 0,
+                    })
+                    basicTimeline.add({
+                        targets: $lead.find('p')[0],
+                        opacity: 1,
+                        duration: 400,
+                        offset: '-=800',
+                        // ease: 'easeInSine',
+                        elasticity: 0,
+                    })
+                })
+                leadtos.on('click', function(e) {
+                    e.preventDefault();
+                    var href = $(e.currentTarget).attr('href');
+                    if(href){
+                        window.open($(e.currentTarget).attr('href'))
+                    }
+                })
+                leadtos.hover(function (e) {
+                    var width = $(e.currentTarget).width();
+                    anime.remove(e.currentTarget);
+                    anime({
+                      targets: e.currentTarget,
+                      translateX: 0.2*Math.pow(width, 4/5),
+                      scale: 1.1,
+                      // direction: 'alternate',
+                      rotate: '0.003turn'
+                    });
+                },
+                function (e) {
+                    anime.remove(e.currentTarget);
+                    anime({
+                      targets: e.currentTarget,
+                      translateX: 0,
+                      scale: 1,
+                      // width: 0
+                      // direction: 'alternate',
+                      // rotate: '1turn'
+                    });
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            })($)
+        </script>
+    <body>
+</html>
