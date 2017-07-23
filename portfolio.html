@@ -13,6 +13,17 @@
             .narrative-wrapper {
                 margin-left: 20vw;
             }
+            .description-wrapper {
+                top: 0;
+                right: 0;
+                position: absolute;
+                /*display: none;*/
+            }
+            .description-wrapper div {
+                width: 30vw;
+                height: 200px;
+                display: none;
+            }
             .leadin, .leadto {
                 margin: .2em;
                 display: inline-block;
@@ -31,6 +42,14 @@
                 padding:.1em;
                 font-size: 5em;
             }
+            .description-title {
+                padding: 1em;
+                margin: 0;
+            }
+            .description p {
+                padding: 1em;
+                margin: 0;
+            }
             .leadin {
                 background-color: #222;
                 color: white;
@@ -38,7 +57,7 @@
             .leadto {
                 margin-left: 4em;
             }
-            .leadto p {
+            .leadto p, .description p {
                 opacity: 0;
             }
 
@@ -60,41 +79,12 @@
     </head>
     <body>
         <div class = 'narrative-wrapper'>
-            <div class = 'leadin'><p>I'm a</p></div>
-            <div class = 'tacky tacky-titles'>
-                <div class = 'leadto tech' data-id=0><p>software developer</p></div><br>
-                <div class = 'leadto art' data-id=1><p>designer</p></div><br>
-                <div class = 'leadto character' data-id=2><p>excited nerd</p></div><br>
-            </div>
-            <div class = 'leadin'><p>with a passion for</p></div>
-            <div class = 'tacky tacky-passions'>
-                <div class = 'leadto art' data-id=4><p>data visualization</p></div><br>
-                <div class = 'leadto tech' data-id=5><p>sexy, concise code</p></div><br>
-                <div class = 'leadto character' data-id=6><p>authenticity</p></div><br>
-                <div class = 'leadto art' data-id=7><p>music</p></div><br>
-                <div class = 'leadto character' data-id=8><p>ethical design</p></div><br>
-            </div>
-            <div class = 'leadin'><p>using tools like</p></div>
-            <div class = 'tacky tacky-tools'>
-                <div class = 'leadto art' data-id=9><p>Photoshop</p></div><br>
-                <div class = 'leadto tech' data-id=10><p>Javascript</p></div><br>
-                <div class = 'leadto tech' data-id=11><p>Python</p></div><br>
-                <div class = 'leadto tech' data-id=12><p>pandas</p></div><br>
-            </div>
-            <div class = 'leadin'><p>to create things like</p></div>
-            <div class = 'tacky tacky-examples'>
-                <div class = 'leadto art' href = 'http://poemrad.io'><p>a poetry sharing service inspired by pandora</p></div><br>
-                <div class = 'leadto tech'><p>a chrome extension to help you own your time</p></div><br>
-                <div class = 'leadto art'><p>some cool graphs</p></div><br>
-                <div class = 'leadto art'><p>a tool to help you write your thoughts without getting hung up</p></div><br>
-            </div>
-        <div> 
-        <div class = "description-wrapper">
-            <div class = 'art'>
+        </div> 
+        <div class = 'description-wrapper'>
         </div>
         <script> 
             (function($){
-                var descriptions = [
+                var entrySets = [
                     {
                         type: 'titles',
                         text: 'I\'m a',
@@ -181,7 +171,8 @@
                             {
                                 category: 'tech',
                                 excerpt: 'a chrome extension to help you break habits',
-                                description: "I'm passionate about yada yada"
+                                description: "I'm passionate about yada yada",
+                                href: 'https://chrome.google.com/webstore/detail/own-your-time/pjpmgnndomgmnnfhaofncmngnonifpgi?hl=en'
                             },
                             {
                                 category: 'tech',
@@ -199,9 +190,32 @@
                     
                 ]
                     
-                }
-
-
+                var narrative = $('.narrative-wrapper'),
+                    description = $('.description-wrapper')
+                var j = 0;
+                $.each(entrySets, function(i, entrySet) {
+                    narrative.append($('<div class = "leadin"></div>')
+                        .append($('<p></p>').text(entrySet['text'])))
+                        .append($('<br>'))
+                    
+                    narrative.append($('<div class = "tacky"></div>')
+                        .addClass(entrySet['type']));
+                    var type = $('.' + entrySet['type'])
+                    $.each(entrySet['entries'], function(i, entry) {
+                        type.append($('<div class = "leadto"></div>').addClass(entry['category'])
+                        .attr('data-id', j).attr('href', entry['href'])
+                        .append($('<p></p>').text(entry['excerpt'])))
+                        .append($('<br>'));
+                        
+                        description.append($('<div class = "description"></div>')
+                            .addClass(entry['category']).attr('data-id', j)
+                            .append($('<h2 class = "description-title"></h2>').text(entry['excerpt']))
+                            .append($('<p></p>').text(entry['description'])))
+                        j++;
+                        
+                    })
+                        
+                })
 
                 var leadtos = $('.leadto'),
                     leadins = $('.leadin');
@@ -209,8 +223,6 @@
                 leadtos.each(function(i, lead) {
                     var $lead = $(lead);
                     var width = $lead.width();
-                    console.log($lead)
-                    console.log("HELLO")
                     if($lead.attr('href')){
                         $lead.css('cursor', 'pointer');
                     }
@@ -223,7 +235,7 @@
                         // ease: 'easeInSine',
                         elasticity: 0,
                     })
-                    basicTimeline.add({
+                    .add({
                         targets: $lead.find('p')[0],
                         opacity: 1,
                         duration: 400,
@@ -240,26 +252,53 @@
                     }
                 })
                 leadtos.hover(function (e) {
-                    var width = $(e.currentTarget).width();
-                    anime.remove(e.currentTarget);
-                    anime({
+                    var targetWidth = $(e.currentTarget).width()
+                    var id = $(e.currentTarget).data('id')
+                    var paired = $('.description-wrapper [data-id=' + id + ']');
+                    paired.height(0).show();
+
+                    var basicTimeline = anime.timeline();
+                    basicTimeline.add({
                       targets: e.currentTarget,
-                      translateX: 0.2*Math.pow(width, 4/5),
+                      translateX: 0.2*Math.pow(targetWidth, 4/5),
                       scale: 1.1,
-                      // direction: 'alternate',
                       rotate: '0.003turn'
+                    })
+                    .add({
+                      targets: paired[0],
+                      height: 200,
+                      offset: '-=980'
+                    })
+                    .add({
+                        targets: $.map(paired.children(), function (child) { return child }),
+                        opacity: 1,
+                        duration: 400,
+                        offset: '-=990',
                     });
                 },
                 function (e) {
-                    anime.remove(e.currentTarget);
-                    anime({
+                    var id = $(e.currentTarget).data('id')
+                    var paired = $('.description-wrapper [data-id=' + id + ']');               
+                    var basicTimeline = anime.timeline();
+                    basicTimeline.add({
                       targets: e.currentTarget,
                       translateX: 0,
                       scale: 1,
-                      // width: 0
-                      // direction: 'alternate',
-                      // rotate: '1turn'
-                    });
+                    })
+                    .add({
+                        targets: paired[0],
+                        height: 0,
+                        offset: '+=500',
+                        duration: 200,
+                        elasticity: 0,
+                        easing: 'easeInOutSine'
+                    })
+                    .add({
+                        targets: $.map(paired.children(), function (child) { return child }),
+                        opacity: 0,
+                        duration: 400,
+                        offset: '-=180',
+                    })
                 })
 
 
