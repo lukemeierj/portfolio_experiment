@@ -2,84 +2,17 @@
     <head>
         <script src = './js/anime.min.js'></script>
         <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-  <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+			  src="https://code.jquery.com/jquery-3.2.1.min.js"
+			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+			  crossorigin="anonymous"></script>
+		
+		<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
 
-    
+		<link rel = "stylesheet" href = "./main.css"></link>
+
         <title>Luke Meier (J?)</title>
-        <style> 
-            body {
-                font-family: 'Inconsolata', monospace;
-                background-color: #efefef;
-            }
-            .narrative-wrapper {
-                margin-left: 20vw;
-            }
-            .description-wrapper {
-                top: 0;
-                right: 0;
-                position: fixed;
-                /*display: none;*/
-            }
-            .description-wrapper div {
-                width: 30vw;
-                height: 200px;
-                display: none;
-            }
-            .leadin, .leadto {
-                margin: .2em;
-                display: inline-block;
-                /*height: 2em;*/
-            }
-            .leadin p, .leadto p {
-                margin: 0;
-                padding: .5em;
-                vertical-align: middle;
-                text-align: center;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-            h1 {
-                margin: 0;
-                padding:.1em;
-                font-size: 5em;
-            }
-            .description-title, .description p {
-                padding-top: 20px;
-                padding-left: 20px;
-                margin: 0;
-            }
-            .leadin {
-                background-color: #222;
-                color: white;
-            }
-            .leadto {
-                margin-left: 4em;
-            }
-            .leadto p, .description p {
-                opacity: 0;
-            }
-
-            .art {
-                background-color: crimson;
-            }
-            .tech {
-                background-color: cornflowerblue;
-            }
-            .character {
-                background-color: tomato;
-            }
-            li {
-                color: black;
-                width: 100%;
-            }
-
-        </style>
-    </head>
+        </head>
     <body>
-
         <div class = 'narrative-wrapper'>
         </div> 
         <div class = 'description-wrapper'>
@@ -89,7 +22,7 @@
                 var entrySets = [
                     {
                         type: 'titles',
-                        text: 'I\'m a',
+                        text: 'Hi, I\'m Luke.  I\'m a',
                         entries : [
                             {
                                 category: 'tech',
@@ -193,25 +126,38 @@
                 ]
                     
                 var narrative = $('.narrative-wrapper'),
-                    description = $('.description-wrapper')
+                    description = $('.description-wrapper');
+
                 var j = 0;
+
                 $.each(entrySets, function(i, entrySet) {
+
+					//Add each category (black section)
                     narrative.append($('<div class = "leadin"></div>')
                         .append($('<p></p>').text(entrySet['text'])))
                         .append($('<br>'))
                     
+					//Add each container for subcategories
                     narrative.append($('<div class = "tacky"></div>')
                         .addClass(entrySet['type']));
+
                     var type = $('.' + entrySet['type'])
+
+					//Add each subcategory
                     $.each(entrySet['entries'], function(i, entry) {
-                        type.append($('<div class = "leadto"></div>').addClass(entry['category'])
-                        .attr('data-id', j).attr('href', entry['href'])
-                        .append($('<p></p>').text(entry['excerpt'])))
+                        type.append($('<div class = "leadto"></div>')
+						.addClass(entry['category'])
+                        .attr('data-id', j)
+						.attr('href', entry['href'])
+                        .append($('<p></p>')
+						.text(entry['excerpt'])))
                         .append($('<br>'));
                         
+						//Add description elements
                         description.append($('<div class = "description"></div>')
                             .addClass(entry['category']).attr('data-id', j)
-                            .append($('<h2 class = "description-title"></h2>').text(entry['excerpt']))
+                            .append($('<h2 class = "description-title"></h2>')
+							.text(entry['excerpt']))
                             .append($('<p></p>').text(entry['description'])))
                         j++;
                         
@@ -221,7 +167,10 @@
 
                 var leadtos = $('.leadto'),
                     leadins = $('.leadin');
+
                 var basicTimeline = anime.timeline();
+
+				//For each subcategory, run the entry animation in sequence
                 leadtos.each(function(i, lead) {
                     var $lead = $(lead);
                     var width = $lead.width();
@@ -234,7 +183,6 @@
                         width: width,
                         offset: i===0 ? '+=300' : '-=1480',
                         duration: 1500,
-                        // ease: 'easeInSine',
                         elasticity: 0,
                     })
                     .add({
@@ -242,10 +190,11 @@
                         opacity: 1,
                         duration: 400,
                         offset: '-=800',
-                        // ease: 'easeInSine',
                         elasticity: 0,
                     })
                 })
+
+				//Open link in new tab
                 leadtos.on('click', function(e) {
                     e.preventDefault();
                     var href = $(e.currentTarget).attr('href');
@@ -253,7 +202,9 @@
                         window.open($(e.currentTarget).attr('href'))
                     }
                 })
+
                 leadtos.hover(function (e) {
+					//Animate categories
                     var targetWidth = $(e.currentTarget).width()
                     var id = $(e.currentTarget).data('id')
                     var paired = $('.description-wrapper [data-id=' + id + ']');
@@ -279,6 +230,7 @@
                     });
                 },
                 function (e) {
+					//Animate descriptions
                     var id = $(e.currentTarget).data('id')
                     var paired = $('.description-wrapper [data-id=' + id + ']');               
                     var basicTimeline = anime.timeline();
@@ -291,8 +243,6 @@
                         targets: paired[0],
                         height: 0,
                         offset: '+=500',
-                        duration: 200,
-                        elasticity: 0,
                         easing: 'easeInOutSine'
                     })
                     .add({
@@ -327,5 +277,5 @@
 
             })($)
         </script>
-    <body>
+    </body>
 </html>

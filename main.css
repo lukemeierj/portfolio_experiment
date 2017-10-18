@@ -1,0 +1,72 @@
+﻿body {
+    font-family: 'Inconsolata', monospace;
+    background-color: #efefef;
+}
+.narrative-wrapper {
+    margin-left: 20vw;
+}
+
+@media (min-height: 680px), screen and (orientation: portrait) {
+    .narrative-wrapper {
+        margin-left: 10vw;
+    }
+}
+
+.description-wrapper {
+    top: 0;
+    right: 0;
+    position: fixed;
+    /*display: none;*/
+}
+.description-wrapper div {
+    width: 30vw;
+    height: 200px;
+    display: none;
+}
+.leadin, .leadto {
+    margin: .2em;
+    display: inline-block;
+    /*height: 2em;*/
+}
+.leadin p, .leadto p {
+    margin: 0;
+    padding: .5em;
+    vertical-align: middle;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+h1 {
+    margin: 0;
+    padding:.1em;
+    font-size: 5em;
+}
+.description-title, .description p {
+    padding-top: 20px;
+    padding-left: 20px;
+    margin: 0;
+}
+.leadin {
+    background-color: #222;
+    color: white;
+}
+.leadto {
+    margin-left: 4em;
+}
+.leadto p, .description p {
+    opacity: 0;
+}
+
+.art {
+    background-color: crimson;
+}
+.tech {
+    background-color: cornflowerblue;
+}
+.character {
+    background-color: tomato;
+}
+li {
+    color: black;
+    width: 100%;
+}

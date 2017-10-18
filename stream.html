@@ -1,0 +1,162 @@
+<html> 
+    <head>
+        <title>Stream of Consciousness</title>
+        <script
+          src="https://code.jquery.com/jquery-3.2.1.min.js"
+          integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+          crossorigin="anonymous"></script>
+          <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+        <style>
+            body {
+                background-color: #DEADAF;
+                font-size: 2em;
+                font-family: 'Muli', sans-serif;
+            }
+            textarea:focus, input:focus{
+                outline: none;
+            }
+
+            #writer {
+                background-color: #DEADAF;
+                margin-top: .5em;
+                padding: .3em;
+                font-family: inherit;
+                height: 2em;
+                width: 100%;
+                font-size: inherit;
+                position: absolute;
+                bottom: 0;
+                border-color: #505050;
+                border-width: 2px;
+                border-top: none;
+                border-right: none;
+                border-left: none;
+
+            }
+            #words {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%;
+                height: 50vh;
+                position:relative;
+
+            }
+            .word {
+                margin: .3em;
+                position: relative;
+            }
+            #button {
+                background-color: #DFBFBF; 
+                padding: .3em;
+                border-radius: .3em;
+                font-size: .60em;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 20px;
+                width: 120px;
+            }
+            #stream-text {
+                position: absolute;
+                top: 0;
+                font-size: .65em;
+                margin: 10vh;
+                margin-left: 25vw;
+                margin-right: 25vw;
+            }
+            .noselect {
+                cursor: pointer;
+              -webkit-touch-callout: none; /* iOS Safari */
+                -webkit-user-select: none; /* Safari */
+                 -khtml-user-select: none; /* Konqueror HTML */
+                   -moz-user-select: none; /* Firefox */
+                    -ms-user-select: none; /* Internet Explorer/Edge */
+                        user-select: none; /* Non-prefixed version, currently
+                                              supported by Chrome and Opera */
+            }
+        </style>
+    </head>
+    <body>
+        <div id = "words" >
+            <p class = "word">&nbsp</p>
+            <p class = "word">&nbsp</p>
+            <p class = "word">&nbsp</p>
+            <p class = "word">&nbsp</p>
+            <p class = "word">&nbsp</p>
+            <p class = "word">&nbsp</p>
+
+            <input placeholder = "Think here" id = "writer" type='text'>
+        </div>
+        <p id = "stream-text" style="opacity: 0 ;"></p>
+        <div id = "button" class = "noselect">Show Stream</div>
+        
+
+
+    </body>
+
+    <script>
+    (function($) {
+        var writer = $("#writer");
+        var wordsArr = [];
+        var WORD_MAX = 5;
+        $("#button").on("click", (e) => {
+            if($("#stream-text").css('opacity') == 0){
+                $("#stream-text").text(wordsArr.join(" "));
+                $("#words").fadeTo(100, 0, () => {
+                    $("#stream-text").fadeTo(100, 1);
+                });
+                $("#button").text("Hide Stream")
+            } else {
+                $("#stream-text").text(wordsArr.join(" "));
+                $("#stream-text").fadeTo(100, 0, () => {
+                    $("#words").fadeTo(100, 1);
+                });
+                $("#button").text("Show Stream")
+            }
+            
+        })
+        $(window).on("beforeunload", (e) => {
+            if(wordsArr.length > 0){
+                return "You will lose your stream of thought! Maybe copy it down?"
+            }
+        })
+
+
+        $("#words").on("new-word", (e) => {
+            var words = $("#words > p, #words > br");
+            var opacity = 1;
+            if(words.length > WORD_MAX){
+                words.first().remove();
+            }
+            for(var i = words.length-1; i >= 0; i--){
+                $(words[i]).fadeTo(0, opacity);
+                opacity -= .20;
+            }
+        })
+
+        writer.on("keyup", (e) => {
+            if(e.which == 32 || e.which == 13){
+                writer.val("");
+            }
+        });
+        writer.on("keydown", (e) => {
+            // e.preventDefault();
+            var val = writer.val();
+            if($.trim(val) != "" && (e.which == 32 || e.which == 13)){
+                $("#words").trigger("new-word")
+                writer.before($("<p>")
+                    .text(val)
+                    .addClass("word"))
+                wordsArr.push(val)
+                if(e.which == 13){
+                    wordsArr.push("\n")
+                }
+            }
+            
+        })
+
+    })($);
+    </script>
+<html>
