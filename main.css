@@ -3,25 +3,30 @@
     background-color: #efefef;
 }
 .narrative-wrapper {
-    margin-left: 20vw;
+    margin-left: 10vw;
+    display: inline-block;
 }
 
-@media (min-height: 680px), screen and (orientation: portrait) {
-    .narrative-wrapper {
-        margin-left: 10vw;
-    }
-}
+.description-wrapper 
+{
+   position: relative;
+   width: 25em;
+   height: 45em;
+   display: inline-block;
+   margin-left: 5em;
 
-.description-wrapper {
-    top: 0;
-    right: 0;
-    position: fixed;
-    /*display: none;*/
+}
+.hideen {
+    display: none;
 }
 .description-wrapper div {
-    width: 30vw;
-    height: 200px;
     display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #e0e0e0;
 }
 .leadin, .leadto {
     margin: .2em;
@@ -47,7 +52,7 @@ h1 {
     margin: 0;
 }
 .leadin {
-    background-color: #222;
+    background-color: #17202A;
     color: white;
 }
 .leadto {
@@ -58,13 +63,13 @@ h1 {
 }
 
 .art {
-    background-color: crimson;
+    background-color: #9B59B6;
 }
 .tech {
-    background-color: cornflowerblue;
+    background-color: #2E86C1;
 }
 .character {
-    background-color: tomato;
+    background-color: #CB4335;
 }
 li {
     color: black;

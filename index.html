@@ -126,7 +126,8 @@
                 ]
                     
                 var narrative = $('.narrative-wrapper'),
-                    description = $('.description-wrapper');
+                    description = $('.description-wrapper'), 
+                    sectionOpened = false;
 
                 var j = 0;
 
@@ -204,20 +205,35 @@
                 })
 
                 leadtos.hover(function (e) {
-					//Animate categories
+					//On hover
                     var targetWidth = $(e.currentTarget).width()
                     var id = $(e.currentTarget).data('id')
+                    var descriptions = $('.description-wrapper');
                     var paired = $('.description-wrapper [data-id=' + id + ']');
-                    paired.height(0).show();
+                    description.children().hide();
+                    if (!sectionOpened) paired.css('opacity', 0);
+                    paired.show();
 
                     var basicTimeline = anime.timeline();
                     basicTimeline.add({
-                      targets: e.currentTarget,
-                      translateX: 0.2*Math.pow(targetWidth, 4/5),
-                      scale: 1.1,
-                      rotate: '0.003turn'
-                    })
-                    .add({
+                        targets: e.currentTarget,
+                        translateX: 0.2 * Math.pow(targetWidth, 4 / 5),
+                        scale: 1.1,
+                        rotate: '0.003turn'
+                    });
+                    console.log(sectionOpened, paired);
+                    if (!sectionOpened) {
+                        basicTimeline.add({
+                            targets: paired[0],
+                            opacity: 1,
+                            ease: "linear",
+                            offset: "-=1000"
+                        });
+                    }
+
+                    sectionOpened = true;
+
+                    /*.add({
                       targets: paired[0],
                       height: 200,
                       offset: '-=980'
@@ -227,30 +243,18 @@
                         opacity: 1,
                         duration: 400,
                         offset: '-=990',
-                    });
+                    })*/;
                 },
                 function (e) {
-					//Animate descriptions
+					//End hover
                     var id = $(e.currentTarget).data('id')
-                    var paired = $('.description-wrapper [data-id=' + id + ']');               
                     var basicTimeline = anime.timeline();
                     basicTimeline.add({
-                      targets: e.currentTarget,
-                      translateX: 0,
-                      scale: 1,
-                    })
-                    .add({
-                        targets: paired[0],
-                        height: 0,
-                        offset: '+=500',
-                        easing: 'easeInOutSine'
-                    })
-                    .add({
-                        targets: $.map(paired.children(), function (child) { return child }),
-                        opacity: 0,
-                        duration: 400,
-                        offset: '-=180',
-                    })
+                        targets: e.currentTarget,
+                        translateX: 0,
+                        scale: 1,
+                    });
+                   
                 })
 
 
